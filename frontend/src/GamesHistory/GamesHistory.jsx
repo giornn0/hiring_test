@@ -84,7 +84,7 @@ const GamesHistory = () => {
 
   return (
     <div
-      className="background-container"
+      className="background-container overflow-y-auto"
       style={{
         backgroundImage: `url(${isCalmMode ? calmBackground : backgroundGif})`,
       }}
