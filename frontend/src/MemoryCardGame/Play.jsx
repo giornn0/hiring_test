@@ -8,6 +8,7 @@ import buttonHoverSound from "../assets/audio/button-hover.mp3";
 import buttonClickSound from "../assets/audio/button-click.mp3";
 import { X } from "lucide-react";
 import "./Play.css";
+import { APP_NAME } from "../constants";
 
 const modalStyles = {
   overlay: {
@@ -63,13 +64,13 @@ const modalPlayStyles = {
   },
 };
 
-const Play = () => {
+const Play = ({ onLogout }) => {
   const navigate = useNavigate();
   const [SettingsmodalIsOpen, setModalSettingIsOpen] = useState(false);
   const [PlaymodalIsOpen, setModalPlayIsOpen] = useState(false);
   const [difficulty, setDifficulty] = useState(null);
   const [isCalmMode, setIsCalmMode] = useState(false);
-  
+
   const [bgVolume, setBgVolume] = useState(
     localStorage.getItem("bgVolume") !== null ? parseInt(localStorage.getItem("bgVolume"), 10) : 50
   );
@@ -214,7 +215,7 @@ const Play = () => {
       }}
     >
       <h1 className={`game-title ${isCalmMode ? "calm-title" : ""}`}>
-        WonderCards
+        {APP_NAME}
       </h1>
 
       <div className="button-container">
@@ -242,6 +243,30 @@ const Play = () => {
         >
           Settings
         </button>
+
+        <button
+          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          onClick={() => {
+            playClickSound();
+            navigate('/memory-card-game/history');
+          }}
+          onMouseEnter={playHoverSound}
+        >
+          Games
+        </button>
+
+
+        <button
+          className={`game-button ${isCalmMode ? "calm-button" : ""}`}
+          onClick={() => {
+            playClickSound();
+            onLogout();
+          }}
+          onMouseEnter={playHoverSound}
+        >
+          Logout
+        </button>
+
       </div>
       <Modal
         isOpen={SettingsmodalIsOpen}
@@ -351,9 +376,8 @@ const Play = () => {
               handleDifficultySelect("green");
               playClickSound();
             }}
-            className={`difficulty-button green ${
-              difficulty === "green" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "green" ? "calm-selected" : ""}`}
+            className={`difficulty-button green ${difficulty === "green" && !isCalmMode ? "selected" : ""
+              } ${isCalmMode && difficulty === "green" ? "calm-selected" : ""}`}
             onMouseEnter={playHoverSound}
           >
             Easy
@@ -363,9 +387,8 @@ const Play = () => {
               handleDifficultySelect("yellow");
               playClickSound();
             }}
-            className={`difficulty-button yellow ${
-              difficulty === "yellow" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "yellow" ? "calm-selected" : ""}`}
+            className={`difficulty-button yellow ${difficulty === "yellow" && !isCalmMode ? "selected" : ""
+              } ${isCalmMode && difficulty === "yellow" ? "calm-selected" : ""}`}
             onMouseEnter={playHoverSound}
           >
             Normal
@@ -375,9 +398,8 @@ const Play = () => {
               handleDifficultySelect("red");
               playClickSound();
             }}
-            className={`difficulty-button red ${
-              difficulty === "red" && !isCalmMode ? "selected" : ""
-            } ${isCalmMode && difficulty === "red" ? "calm-selected" : ""}`}
+            className={`difficulty-button red ${difficulty === "red" && !isCalmMode ? "selected" : ""
+              } ${isCalmMode && difficulty === "red" ? "calm-selected" : ""}`}
             onMouseEnter={playHoverSound}
           >
             Hard

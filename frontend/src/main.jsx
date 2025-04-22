@@ -1,4 +1,5 @@
 import { StrictMode, useState } from 'react';
+import './index.css';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login/Login';
@@ -10,19 +11,22 @@ import MemoryCardGame from './MemoryCardGame/MemoryCardGame';
 import Congratulations from "./MemoryCardGame/Congratulation";
 import CongtEasy from "./MemoryCardGame/Congratseasy";
 import CongtNormal from "./MemoryCardGame/Congratsnormal";
+import GamesHistory from './GamesHistory/GamesHistory';
 
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
 
-  const handleLogin = () => {
+  const handleLogin = ({ token, userID }) => {
+    localStorage.setItem('token', token);
+    localStorage.setItem('userID', userID);
     setIsAuthenticated(true);
   };
 
-  // const handleLogout = () => {
-  //   setIsAuthenticated(false);
-  //   localStorage.removeItem('token');
-  // };
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('token');
+  };
 
   return (
     <Router>
@@ -30,30 +34,35 @@ const App = () => {
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/congratulations"
-      element={isAuthenticated ? <Congratulations /> : <Navigate to="/login" />}
-      />
-     
-      <Route path="/congt-easy"
-      element={isAuthenticated ? <CongtEasy /> : <Navigate to="/login" />}
-      />
-      <Route path="/congt-normal"
-      element={isAuthenticated ? <CongtNormal /> : <Navigate to="/login" />}
-      />
-        <Route path="/easy" 
-       element={isAuthenticated ? <Easy /> : <Navigate to="/login" />}
+          element={isAuthenticated ? <Congratulations /> : <Navigate to="/login" />}
         />
-        <Route path="/medium" 
-         element={isAuthenticated ? <Medium /> : <Navigate to="/login" />}
-         />
+
+        <Route path="/congt-easy"
+          element={isAuthenticated ? <CongtEasy /> : <Navigate to="/login" />}
+        />
+        <Route path="/congt-normal"
+          element={isAuthenticated ? <CongtNormal /> : <Navigate to="/login" />}
+        />
+        <Route path="/easy"
+          element={isAuthenticated ? <Easy /> : <Navigate to="/login" />}
+        />
+        <Route path="/medium"
+          element={isAuthenticated ? <Medium /> : <Navigate to="/login" />}
+        />
         <Route
           path="/play"
-          element={isAuthenticated ? <Play /> : <Navigate to="/login" />}
+          element={isAuthenticated ? <Play onLogout={handleLogout} /> : <Navigate to="/login" />}
         />
-  
+
         <Route
           path="/memory-card-game"
           element={isAuthenticated ? <MemoryCardGame /> : <Navigate to="/login" />}
         />
+        <Route
+          path="/memory-card-game/history"
+          element={isAuthenticated ? <GamesHistory /> : <Navigate to="/login" />}
+        />
+
         <Route path="/" element={<Navigate to="/login" />} />
       </Routes>
     </Router>
