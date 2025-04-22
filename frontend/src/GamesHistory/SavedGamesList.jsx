@@ -54,7 +54,7 @@ const SavedGamesList = () => {
     <div className="space-y-4">
       <h2 className="text-2xl font-bold text-purple-600 mb-6">Your Saved Games</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {games.map ?? games.map((game) => (<SavedGameDetail key={game.id} game={game} />))}
+        {games.map((game) => (<SavedGameDetail key={game.id} game={game} />))}
       </div>
     </div>
   );
